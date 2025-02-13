@@ -10,10 +10,15 @@ Ce projet est la refonte d'un ancien projet en PHP natif 5.6 se trouvant dans le
 - **Framework** : Symfony 7.2
 - **Base de données** : Doctrine ORM avec DBAL
 - **Dépendances principales** :
-   - Symfony Bundles : `symfony/framework-bundle`, `symfony/security-bundle`, `symfony/twig-bundle`, `symfony/validator`, `symfony/serializer`
-   - Doctrine : `doctrine/orm`, `doctrine/doctrine-bundle`, `doctrine/doctrine-migrations-bundle`
-   - Outils : `symfony/console`, `symfony/dotenv`, `symfony/process`, `symfony/intl`
-   - Autres : `twig/twig`, `monolog/monolog`, `symfony/mailer`, `symfony/notifier`
+    - Symfony Bundles : `symfony/framework-bundle`, `symfony/security-bundle`, `symfony/twig-bundle`, `symfony/validator`, `symfony/serializer`
+    - Doctrine : `doctrine/orm`, `doctrine/doctrine-bundle`, `doctrine/doctrine-migrations-bundle`
+    - Outils : `symfony/console`, `symfony/dotenv`, `symfony/process`, `symfony/intl`
+    - Autres : `twig/twig`, `monolog/monolog`, `symfony/mailer`, `symfony/notifier`
+
+## Diagramme UML
+
+Vous pouvez consulter le diagramme UML du projet en suivant ce lien :
+[Diagramme UML](https://lucid.app/lucidchart/057cdaa2-bc97-43a0-b0d5-b68ae211f6bf/edit?viewport_loc=-5130%2C-2735%2C8198%2C9918%2C0_0&invitationId=inv_f2a0c8f3-5620-46f2-a1d6-bf9d213e865d)
 
 ## Installation
 
@@ -55,5 +60,3 @@ Ce projet est la refonte d'un ancien projet en PHP natif 5.6 se trouvant dans le
 
 - Léo Giner
 - Maxime Tamarin
-
-
