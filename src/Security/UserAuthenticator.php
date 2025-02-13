@@ -16,16 +16,51 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\SecurityRequestAttributes;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
+/**
+ * UserAuthenticator
+ *
+ * Handles user authentication using Symfony's security component.
+ * Implements login form authentication with CSRF protection and remember-me functionality.
+ *
+ * @package App\Security
+ */
 class UserAuthenticator extends AbstractLoginFormAuthenticator
 {
     use TargetPathTrait;
 
+    /**
+     * The login route name.
+     *
+     * @var string
+     */
     public const LOGIN_ROUTE = 'app_login';
 
-    public function __construct(private UrlGeneratorInterface $urlGenerator)
+    /**
+     * @var UrlGeneratorInterface Generates URLs for redirection.
+     */
+    private UrlGeneratorInterface $urlGenerator;
+
+    /**
+     * UserAuthenticator constructor.
+     *
+     * @param UrlGeneratorInterface $urlGenerator The URL generator service.
+     */
+    public function __construct(UrlGeneratorInterface $urlGenerator)
     {
+        $this->urlGenerator = $urlGenerator;
     }
 
+    /**
+     * Authenticates the user based on the login request.
+     *
+     * This method retrieves the username and password from the request,
+     * validates them, and applies security measures such as CSRF protection
+     * and remember-me functionality.
+     *
+     * @param Request $request The HTTP request containing login credentials.
+     *
+     * @return Passport The security passport containing user credentials.
+     */
     public function authenticate(Request $request): Passport
     {
         $username = $request->getPayload()->getString('username');
@@ -42,17 +77,35 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
         );
     }
 
+    /**
+     * Handles the redirection after a successful authentication.
+     *
+     * If a target path was stored before authentication, the user is redirected there.
+     * Otherwise, the user is redirected to the homepage.
+     *
+     * @param Request $request The HTTP request.
+     * @param TokenInterface $token The authenticated security token.
+     * @param string $firewallName The firewall name used during authentication.
+     *
+     * @return Response|null A redirect response or null if an error occurs.
+     */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
 
-        // For example:
-         return new RedirectResponse($this->urlGenerator->generate('app_home'));
-        throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+        // Redirect to home page after login
+        return new RedirectResponse($this->urlGenerator->generate('app_home'));
     }
 
+    /**
+     * Returns the login URL for the authentication process.
+     *
+     * @param Request $request The HTTP request.
+     *
+     * @return string The login route URL.
+     */
     protected function getLoginUrl(Request $request): string
     {
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);

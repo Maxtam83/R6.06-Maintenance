@@ -8,52 +8,92 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+/**
+ * User entity representing the application's users.
+ *
+ * This entity is used for authentication and authorization.
+ * Each user has a unique email and username, a hashed password,
+ * and an array of roles defining their permissions.
+ *
+ * @package App\Entity
+ */
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['username'])]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    /**
+     * Unique identifier for the user.
+     *
+     * @var int|null
+     */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    /**
+     * The username of the user.
+     *
+     * @var string|null
+     */
     #[ORM\Column(length: 180)]
     private ?string $username = null;
 
     /**
-     * @var list<string> The user roles
+     * The roles assigned to the user.
+     *
+     * @var list<string>
      */
     #[ORM\Column]
     private array $roles = [];
 
     /**
-     * @var string The hashed password
+     * The hashed password for authentication.
+     *
+     * @var string|null
      */
     #[ORM\Column]
     private ?string $password = null;
 
     /**
-     * @var string The user email
+     * The email address of the user (must be unique).
+     *
+     * @var string|null
      */
     #[ORM\Column(length: 255, unique: true)]
     private ?string $email = null;
 
+    /**
+     * Get the user's unique identifier.
+     *
+     * @return int|null The user's ID.
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * Get the username of the user.
+     *
+     * @return string|null The username.
+     */
     public function getUsername(): ?string
     {
         return $this->username;
     }
 
+    /**
+     * Set the username of the user.
+     *
+     * @param string $username The username to set.
+     * @return static Returns the instance for method chaining.
+     */
     public function setUsername(string $username): static
     {
         $this->username = $username;
-
         return $this;
     }
 
@@ -61,6 +101,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * A visual identifier that represents this user.
      *
      * @see UserInterface
+     *
+     * @return string The username as the identifier.
      */
     public function getUserIdentifier(): string
     {
@@ -68,49 +110,71 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @see UserInterface
+     * Get the roles assigned to the user.
      *
-     * @return list<string>
+     * @return list<string> The user's roles.
      */
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
+        // Ensure every user has at least ROLE_USER
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
     }
 
     /**
-     * @param list<string> $roles
+     * Set the roles assigned to the user.
+     *
+     * @param list<string> $roles The roles to set.
+     * @return static Returns the instance for method chaining.
      */
     public function setRoles(array $roles): static
     {
         $this->roles = $roles;
-
         return $this;
     }
 
     /**
+     * Get the hashed password of the user.
+     *
      * @see PasswordAuthenticatedUserInterface
+     *
+     * @return string|null The hashed password.
      */
     public function getPassword(): ?string
     {
         return $this->password;
     }
 
+    /**
+     * Set the hashed password of the user.
+     *
+     * @param string $password The password to set.
+     * @return static Returns the instance for method chaining.
+     */
     public function setPassword(string $password): static
     {
         $this->password = $password;
-
         return $this;
     }
 
+    /**
+     * Get the email address of the user.
+     *
+     * @return string|null The user's email.
+     */
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
+    /**
+     * Set the email address of the user.
+     *
+     * @param string $email The email to set.
+     * @return static Returns the instance for method chaining.
+     */
     public function setEmail(string $email): static
     {
         $this->email = $email;
@@ -118,11 +182,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
+     * Erase credentials that should not be persisted.
+     *
+     * This method is used to clear sensitive data (e.g., plain passwords) after authentication.
+     *
      * @see UserInterface
      */
     public function eraseCredentials(): void
     {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        // Clear any temporary, sensitive data if needed.
+        // Example: $this->plainPassword = null;
     }
 }
