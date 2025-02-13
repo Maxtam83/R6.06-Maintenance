@@ -8,44 +8,83 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: SportRepository::class)]
 class Sport
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+	/**
+	 * Identifiant unique du sport.
+	 *
+	 * @var int|null
+	 */
+	#[ORM\Id]
+	#[ORM\GeneratedValue]
+	#[ORM\Column]
+	private ?int $id = null;
 
-    #[ORM\Column(length: 20)]
-    private ?string $Title = null;
+	/**
+	 * Titre du sport (abréviation ou nom court).
+	 *
+	 * @var string|null
+	 */
+	#[ORM\Column(length: 20)]
+	private ?string $Title = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $Libelle = null;
+	/**
+	 * Libellé complet du sport.
+	 *
+	 * @var string|null
+	 */
+	#[ORM\Column(length: 50)]
+	private ?string $Libelle = null;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+	/**
+	 * Récupère l'identifiant du sport.
+	 *
+	 * @return int|null
+	 */
+	public function getId(): ?int
+	{
+		return $this->id;
+	}
 
-    public function getTitle(): ?string
-    {
-        return $this->Title;
-    }
+	/**
+	 * Récupère le titre du sport.
+	 *
+	 * @return string|null
+	 */
+	public function getTitle(): ?string
+	{
+		return $this->Title;
+	}
 
-    public function setTitle(string $Title): static
-    {
-        $this->Title = $Title;
+	/**
+	 * Définit le titre du sport.
+	 *
+	 * @param string $Title
+	 * @return self
+	 */
+	public function setTitle(string $Title): static
+	{
+		$this->Title = $Title;
+		return $this;
+	}
 
-        return $this;
-    }
+	/**
+	 * Récupère le libellé du sport.
+	 *
+	 * @return string|null
+	 */
+	public function getLibelle(): ?string
+	{
+		return $this->Libelle;
+	}
 
-    public function getLibelle(): ?string
-    {
-        return $this->Libelle;
-    }
-
-    public function setLibelle(string $Libelle): static
-    {
-        $this->Libelle = $Libelle;
-
-        return $this;
-    }
-
+	/**
+	 * Définit le libellé du sport.
+	 *
+	 * @param string $Libelle
+	 * @return self
+	 */
+	public function setLibelle(string $Libelle): static
+	{
+		$this->Libelle = $Libelle;
+		return $this;
+	}
 }
