@@ -2,22 +2,21 @@
 
 namespace App\Entity;
 
-use App\Repository\EpreuveRepository;
-use Doctrine\DBAL\Types\Types;
+use App\Repository\SportRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: EpreuveRepository::class)]
-class Epreuve
+#[ORM\Entity(repositoryClass: SportRepository::class)]
+class Sport
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 15)]
-    private ?string $LibelCourt = null;
+    #[ORM\Column(length: 20)]
+    private ?string $Title = null;
 
-    #[ORM\Column(length: 75)]
+    #[ORM\Column(length: 50)]
     private ?string $Libelle = null;
 
     public function getId(): ?int
@@ -25,14 +24,14 @@ class Epreuve
         return $this->id;
     }
 
-    public function getLibelCourt(): ?string
+    public function getTitle(): ?string
     {
-        return $this->LibelCourt;
+        return $this->Title;
     }
 
-    public function setLibelCourt(string $LibelCourt): static
+    public function setTitle(string $Title): static
     {
-        $this->LibelCourt = $LibelCourt;
+        $this->Title = $Title;
 
         return $this;
     }
@@ -48,6 +47,5 @@ class Epreuve
 
         return $this;
     }
-
 
 }
